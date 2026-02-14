@@ -257,17 +257,26 @@ a:focus-visible,
 }
 
 /* ─── Scrollbar utility for controls panel ─── */
-.lg\:scrollbar-thin::-webkit-scrollbar {
-  width: 4px;
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #d3d3d3 transparent;
 }
-.lg\:scrollbar-thin::-webkit-scrollbar-track {
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
   background: transparent;
 }
-.lg\:scrollbar-thin::-webkit-scrollbar-thumb {
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
   background: #d3d3d3;
-  border-radius: 4px;
+  border-radius: 3px;
+  transition: background 0.2s ease;
 }
-.lg\:scrollbar-thin::-webkit-scrollbar-thumb:hover {
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: #bbb;
 }
 

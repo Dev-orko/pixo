@@ -205,28 +205,31 @@ export default function Home() {
           </>
         ) : (
           /* ─── Editor view ─── */
-          <div className="relative flex flex-col lg:flex-row gap-0 lg:gap-4 flex-1 min-h-0 animate-fade-up animation-delay-0">
+          <div className="relative flex flex-col lg:flex-row gap-3 lg:gap-4 flex-1 min-h-0 animate-fade-up animation-delay-0">
             {/* Canvas area — full screen on mobile */}
-            <div className="flex-1 min-w-0 flex flex-col gap-0 min-h-0 lg:gap-2">
-              <PixelCanvas
-                sourceImage={sourceImage}
-                resultCanvas={resultCanvas}
-                conversionResult={conversionResult}
-                isProcessing={isProcessing}
-                settings={settings}
-                sourceCanvasRef={sourceCanvasRef}
-              />
+            <div className="flex-1 min-w-0 flex flex-col gap-2 min-h-0">
+              {/* Canvas preview wrapper */}
+              <div className="flex-1 min-h-0 bg-gradient-to-br from-neutral-50/50 to-neutral-100/30 rounded-xl p-1.5 border border-neutral-200/50">
+                <PixelCanvas
+                  sourceImage={sourceImage}
+                  resultCanvas={resultCanvas}
+                  conversionResult={conversionResult}
+                  isProcessing={isProcessing}
+                  settings={settings}
+                  sourceCanvasRef={sourceCanvasRef}
+                />
+              </div>
 
               {/* Desktop replace button */}
-              <div className="hidden lg:flex items-center gap-3 px-1 shrink-0">
+              <div className="hidden lg:flex items-center gap-2.5 shrink-0">
                 <button
                   onClick={() => document.getElementById('file-input-bottom')?.click()}
                   aria-label="Replace current image"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#d3d3d3]
-                    text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-neutral-500
-                    hover:text-[#0b0b0b] hover:border-neutral-400 hover:bg-white active:bg-neutral-200 transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0b0b0b] text-white
+                    text-[11px] font-bold uppercase tracking-wider
+                    hover:bg-[#222] active:bg-black transition-all shadow-sm"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" strokeLinecap="round" strokeLinejoin="round" />
                     <polyline points="17 8 12 3 7 8" strokeLinecap="round" strokeLinejoin="round" />
                     <line x1="12" y1="3" x2="12" y2="15" strokeLinecap="round" />
@@ -245,13 +248,13 @@ export default function Home() {
                   className="hidden"
                   aria-label="Choose replacement image"
                 />
-                <span className="text-[9px] sm:text-[10px] text-neutral-400 truncate max-w-40">{fileName}</span>
+                <span className="text-[10px] text-neutral-500 truncate flex-1 font-medium">{fileName}</span>
               </div>
             </div>
 
             {/* Desktop controls panel — sticky sidebar */}
-            <div className="hidden lg:block w-[300px] xl:w-[320px] shrink-0">
-              <div className="sticky top-[73px] max-h-[calc(100dvh-89px)] overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 rounded-2xl">
+            <div className="hidden lg:block w-[330px] xl:w-[345px] shrink-0">
+              <div className="sticky top-[65px] max-h-[calc(100vh-73px)] overflow-y-auto scrollbar-thin">
                 <ControlsPanel
                   settings={settings}
                   onSettingsChange={setSettings}

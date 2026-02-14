@@ -136,12 +136,12 @@ export default function PixelCanvas({
   const patternLabel = PATTERN_LABELS[settings.pattern] || 'Horizontal';
 
   return (
-    <div className="flex flex-col w-full gap-1 sm:gap-1.5 flex-1 min-h-0">
+    <div className="w-full h-full flex flex-col gap-1.5 min-h-0">
       {/* Viewport */}
       <div
         ref={viewportRef}
-        className="relative w-full overflow-auto rounded-xl sm:rounded-2xl border border-[#d3d3d3] flex-1 min-h-0 overscroll-contain touch-pan-x touch-pan-y"
-        style={{ background: settings.invert ? '#1a1a1a' : '#fafafa' }}
+        className="relative w-full overflow-auto rounded-lg border border-white shadow-md flex-1 min-h-0 overscroll-contain touch-pan-x touch-pan-y"
+        style={{ background: settings.invert ? '#1a1a1a' : '#ffffff' }}
         role="img"
         aria-label={resultCanvas ? `Processed image with ${patternLabel} pattern` : 'Image preview'}
       >
@@ -190,7 +190,7 @@ export default function PixelCanvas({
         {/* Zoom controls — floating, touch-friendly */}
         {sourceImage && (
           <div
-            className="sticky bottom-2 sm:bottom-3 float-right mr-2 sm:mr-3 z-10 flex items-center gap-0.5 bg-white/90 backdrop-blur-sm border border-[#d3d3d3] rounded-xl px-1 py-1 shadow-sm"
+            className="sticky bottom-2 float-right mr-2 z-10 flex items-center gap-0.5 bg-white/95 backdrop-blur-sm border border-neutral-200 rounded-lg px-1.5 py-1.5 shadow-md"
             style={{ marginTop: '-48px' }}
             role="toolbar"
             aria-label="Zoom controls"
@@ -198,21 +198,21 @@ export default function PixelCanvas({
             <button
               onClick={zoomOut}
               aria-label="Zoom out"
-              className="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:text-[#0b0b0b] hover:bg-neutral-100 active:bg-neutral-200 transition-colors text-base font-medium"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-neutral-600 hover:text-[#0b0b0b] hover:bg-neutral-100 active:bg-neutral-200 transition-colors text-base font-bold"
             >
               −
             </button>
             <button
               onClick={zoomFit}
               aria-label={`Zoom level ${zoom}%, click to reset to 100%`}
-              className="px-1.5 h-9 sm:h-8 flex items-center justify-center rounded-lg text-[10px] font-mono text-neutral-500 hover:text-[#0b0b0b] hover:bg-neutral-100 transition-colors min-w-[48px] sm:min-w-[42px]"
+              className="px-2 h-8 flex items-center justify-center rounded-md text-[10px] font-mono font-bold text-neutral-700 hover:text-[#0b0b0b] hover:bg-neutral-100 transition-colors min-w-[46px]"
             >
               {zoom}%
             </button>
             <button
               onClick={zoomIn}
               aria-label="Zoom in"
-              className="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg text-neutral-500 hover:text-[#0b0b0b] hover:bg-neutral-100 active:bg-neutral-200 transition-colors text-base font-medium"
+              className="w-8 h-8 flex items-center justify-center rounded-md text-neutral-600 hover:text-[#0b0b0b] hover:bg-neutral-100 active:bg-neutral-200 transition-colors text-base font-bold"
             >
               +
             </button>
@@ -222,11 +222,11 @@ export default function PixelCanvas({
 
       {/* Info bar */}
       {resultCanvas && conversionResult && (
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 px-1 shrink-0" aria-live="polite">
-          <span className="text-[9px] sm:text-[11px] font-mono text-neutral-400">
-            {conversionResult.gridCols}&times;{conversionResult.gridRows} &bull; {conversionResult.totalCells.toLocaleString()} cells &bull; {conversionResult.processingTimeMs}ms
+        <div className="flex flex-wrap items-center justify-between gap-x-2.5 gap-y-0.5 px-2 py-1.5 bg-white rounded-lg border border-neutral-200 shrink-0" aria-live="polite">
+          <span className="text-[9px] font-mono text-neutral-500 font-medium">
+            {conversionResult.gridCols}&times;{conversionResult.gridRows} • {conversionResult.totalCells.toLocaleString()} cells • {conversionResult.processingTimeMs}ms
           </span>
-          <span className="text-[9px] sm:text-[11px] font-mono text-neutral-400 uppercase tracking-wider">
+          <span className="text-[9px] font-mono text-neutral-600 uppercase tracking-wide font-bold">
             {settings.gridSize}px &bull; {patternLabel}
             {settings.invert ? ' &bull; Inv' : ''}
             {settings.colorMode ? ' &bull; Color' : ''}
