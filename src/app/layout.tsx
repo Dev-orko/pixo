@@ -24,9 +24,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Pixo — Turn Photos into Grid Art",
+  title: "Pixo — Turn Photos into Stunning Grid Art | Free Online Tool",
   description:
-    "Transform any photo into stunning grid-based art with 7 pattern styles, real-time preview, and instant export. Free, fast, beautiful.",
+    "Pixo is a free, browser-based tool that transforms any photo into beautiful grid-based artwork. Choose from 7 unique pattern styles — lines, dots, waves, crosshatch & more — with real-time preview, fine-tuned controls for contrast, brightness & sharpness, and instant hi-res PNG/JPG/WebP export. No sign-up, no uploads to servers — 100% client-side and private.",
   keywords: [
     "pixo",
     "grid art",
@@ -51,12 +51,21 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Pixo",
     locale: "en_US",
+    images: [
+      {
+        url: "/pixo_pixo.png",
+        width: 150,
+        height: 150,
+        alt: "Pixo — Turn Photos into Grid Art",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Pixo — Turn Photos into Grid Art",
     description:
       "Transform any photo into stunning grid-based art with 7 pattern styles, real-time preview, and instant export.",
+    images: ["/pixo_pixo.png"],
   },
   robots: {
     index: true,
