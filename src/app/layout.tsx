@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  metadataBase: new URL("https://pixo-three.vercel.app"),
+  metadataBase: new URL("https://pixoart.vercel.app"),
 };
 
 export default function RootLayout({
