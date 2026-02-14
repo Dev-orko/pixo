@@ -80,6 +80,11 @@ header button, footer button, header a, footer a {
   100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
+@keyframes slideUp {
+  0% { transform: translate3d(0, 100%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
 @keyframes fadeUpScale {
   0% { opacity: 0; transform: translate3d(0, 40px, 0) scale(0.96); }
   100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
@@ -106,6 +111,10 @@ header button, footer button, header a, footer a {
 
 .animate-slide-down {
   animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-fade-up {

@@ -23,6 +23,7 @@ export default function Home() {
   const [settings, setSettings] = useState<PixelSettings>(DEFAULT_SETTINGS);
   const [isProcessing, setIsProcessing] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [showMobileControls, setShowMobileControls] = useState(false);
   const sourceCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -204,9 +205,9 @@ export default function Home() {
           </>
         ) : (
           /* ─── Editor view ─── */
-          <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 flex-1 min-h-0 animate-fade-up animation-delay-0">
-            {/* Canvas area */}
-            <div className="flex-1 min-w-0 flex flex-col gap-2 min-h-0">
+          <div className="relative flex flex-col lg:flex-row gap-0 lg:gap-4 flex-1 min-h-0 animate-fade-up animation-delay-0">
+            {/* Canvas area — full screen on mobile */}
+            <div className="flex-1 min-w-0 flex flex-col gap-0 min-h-0 lg:gap-2">
               <PixelCanvas
                 sourceImage={sourceImage}
                 resultCanvas={resultCanvas}
@@ -216,7 +217,8 @@ export default function Home() {
                 sourceCanvasRef={sourceCanvasRef}
               />
 
-              <div className="flex items-center gap-3 px-1 shrink-0">
+              {/* Desktop replace button */}
+              <div className="hidden lg:flex items-center gap-3 px-1 shrink-0">
                 <button
                   onClick={() => document.getElementById('file-input-bottom')?.click()}
                   aria-label="Replace current image"
@@ -243,13 +245,13 @@ export default function Home() {
                   className="hidden"
                   aria-label="Choose replacement image"
                 />
-                <span className="text-[9px] sm:text-[10px] text-neutral-400 truncate max-w-40 hidden sm:inline">{fileName}</span>
+                <span className="text-[9px] sm:text-[10px] text-neutral-400 truncate max-w-40">{fileName}</span>
               </div>
             </div>
 
-            {/* Controls panel — scrollable on mobile */}
-            <div className="w-full lg:w-[300px] xl:w-[320px] shrink-0 max-h-[40dvh] lg:max-h-none overflow-y-auto lg:overflow-visible overscroll-contain">
-              <div className="lg:sticky lg:top-[73px] lg:max-h-[calc(100dvh-89px)] lg:overflow-y-auto lg:scrollbar-thin lg:scrollbar-thumb-neutral-300 lg:rounded-2xl">
+            {/* Desktop controls panel — sticky sidebar */}
+            <div className="hidden lg:block w-[300px] xl:w-[320px] shrink-0">
+              <div className="sticky top-[73px] max-h-[calc(100dvh-89px)] overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-300 rounded-2xl">
                 <ControlsPanel
                   settings={settings}
                   onSettingsChange={setSettings}
@@ -260,6 +262,90 @@ export default function Home() {
                 />
               </div>
             </div>
+
+            {/* Mobile: Bottom action bar (when controls hidden) */}
+            <div className={`lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#d3d3d3] safe-bottom transition-all duration-300 z-40 ${showMobileControls ? 'translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'}`}>
+              <div className="flex items-center justify-between px-4 py-3 gap-3">
+                <button
+                  onClick={() => document.getElementById('file-input-mobile')?.click()}
+                  className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#f4f4f4] text-neutral-600 hover:bg-neutral-200 active:bg-neutral-300 transition-colors"
+                  aria-label="Replace image"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" strokeLinecap="round" strokeLinejoin="round" />
+                    <polyline points="17 8 12 3 7 8" strokeLinecap="round" strokeLinejoin="round" />
+                    <line x1="12" y1="3" x2="12" y2="15" strokeLinecap="round" />
+                  </svg>
+                </button>
+                <input
+                  id="file-input-mobile"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) handleImageSelect(f);
+                    e.target.value = '';
+                  }}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => setShowMobileControls(true)}
+                  className="flex-1 flex items-center justify-center gap-2 h-11 px-6 rounded-xl bg-[#0b0b0b] text-white font-semibold text-sm hover:bg-[#222] active:bg-[#000] transition-colors"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M12 1v6M12 17v6M5.6 5.6l4.2 4.2M14.2 14.2l4.2 4.2M1 12h6M17 12h6M5.6 18.4l4.2-4.2M14.2 9.8l4.2-4.2" strokeLinecap="round" />
+                  </svg>
+                  Settings
+                </button>
+                <button
+                  onClick={() => handleDownload('png')}
+                  disabled={!resultCanvas}
+                  className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#f4f4f4] text-neutral-600 hover:bg-neutral-200 active:bg-neutral-300 transition-colors disabled:opacity-40 disabled:pointer-events-none"
+                  aria-label="Download PNG"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" strokeLinecap="round" strokeLinejoin="round" />
+                    <polyline points="7 10 12 15 17 10" strokeLinecap="round" strokeLinejoin="round" />
+                    <line x1="12" y1="15" x2="12" y2="3" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile: Bottom sheet controls */}
+            {showMobileControls && (
+              <>
+                {/* Backdrop overlay */}
+                <div
+                  className="lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 animate-fade-in"
+                  onClick={() => setShowMobileControls(false)}
+                  aria-hidden="true"
+                />
+                {/* Bottom sheet */}
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl z-50 max-h-[85dvh] flex flex-col animate-slide-up safe-bottom">
+                  {/* Drag handle */}
+                  <div className="flex items-center justify-center py-2 px-4 shrink-0">
+                    <button
+                      onClick={() => setShowMobileControls(false)}
+                      className="w-10 h-1 bg-neutral-300 rounded-full"
+                      aria-label="Close settings"
+                    />
+                  </div>
+                  {/* Controls content */}
+                  <div className="flex-1 overflow-y-auto overscroll-contain">
+                    <ControlsPanel
+                      settings={settings}
+                      onSettingsChange={setSettings}
+                      onReset={() => { handleReset(); setShowMobileControls(false); }}
+                      onDownload={(fmt) => { handleDownload(fmt); setShowMobileControls(false); }}
+                      hasResult={!!resultCanvas}
+                      isProcessing={isProcessing}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
       </main>
